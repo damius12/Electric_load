@@ -45,13 +45,13 @@ if user_country != None:
             st.session_state.country = user_country
         except Exception:
             error = True
-    df = st.session_state.df[cols].reset_index()
 
     if cols == []:
         st.info("Seleziona un'opzione dal menù a sinistra",icon=':material/arrow_back:')
     elif error:
         st.error("Dati non disponibili",icon=':material/error:') 
     else:
+        df = st.session_state.df[cols].reset_index()
         if len(df)>24:
             df['Hour'] = df['index'].apply(lambda x: x.hour)
             df = df.groupby(['Hour']).mean()
