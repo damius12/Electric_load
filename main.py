@@ -20,7 +20,7 @@ with st.sidebar:
     cols = []
     '---'
     if st.checkbox('Carico di base'):
-        cols = cols + ['Nucleare','Carbone','Lignite','Gas fossile','Biomassa','Geotermico','Idroelettrico fluente','Rifiuti']
+        cols = cols + ['Nucleare','Carbone','Lignite','Gas derivato','Biomassa','Geotermico','Idroelettrico fluente','Rifiuti']
     if st.checkbox('Rinnovabili aleatorie'):
         cols = cols + ['Eolico offshore','Eolico onshore','Solare']
     if st.checkbox('Picchi e regolazione'):
@@ -29,7 +29,7 @@ with st.sidebar:
         cols = cols + ['Altro']
     '---'
     if st.toggle("escludi combustibili fossili"):
-        for fuel in ['Carbone','Lignite','Gas fossile','Gas naturale']:
+        for fuel in ['Carbone','Lignite','Gas derivato','Gas naturale']:
             if fuel in cols:
                 cols.remove(fuel)
 
@@ -46,27 +46,14 @@ if user_country != None:
             error = True
 
     if cols == []:
-        st.info("Seleziona un'opzione dal menù a sinistra",icon=':material/arrow_back:')
+        st.success("Seleziona un'opzione dal menù a sinistra",icon=':material/arrow_back:')
     elif error:
         st.error("Dati non disponibili",icon=':material/error:') 
     else:
-        df = st.session_state.df[cols].reset_index()
-        if len(df)>24:
-            df['Hour'] = df['index'].apply(lambda x: x.hour)
-            df = df.groupby(['Hour']).mean()
-        df = df.melt(value_name='VAL',var_name='VAR',id_vars='index')
-        df['Timestamp'] = df['index']
-        for i in df.index:
-            df.at[i,'Timestamp'] = df.at[i,'index'] + pd.Timedelta(hours=0.5)
-        load = st.session_state.df[['Load']].reset_index()
-        if len(load)>24:
-            load['Hour'] = load['index'].apply(lambda x: x.hour)
-            load = load.groupby(['Hour']).mean()
+        df = st.session_state.df[cols+['Timestamp']]
+        df = df.melt(value_name='VAL',var_name='VAR',id_vars='Timestamp')
+        load = st.session_state.df[['Load','Timestamp']]
         load['Label'] = ['Carico']*len(load)
-        load['Timestamp'] = load['index']
-        for i in load.index:
-            load.at[i,'Timestamp'] = load.at[i,'index'] + pd.Timedelta(hours=0.5)
-
         chart = plot(df,load)
         st.altair_chart(chart)
 

@@ -1,7 +1,7 @@
 psr_type = {
     'B01':'Biomassa',
     'B02':'Lignite',
-    'B03':'Gas fossile',
+    'B03':'Gas derivato',
     'B04':'Gas naturale',
     'B05':'Carbone',
     'B09':'Geotermico',

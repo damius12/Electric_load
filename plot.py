@@ -3,20 +3,20 @@ import altair as alt
 from AltairCharts import AltairCharts
 
 def plot(df:pd.DataFrame, load:pd.DataFrame) -> alt.Chart:
-    items = ['Idroelettrico pompaggio','Idroelettrico bacino','Gas naturale','Altro','Solare','Eolico onshore','Eolico offshore','Idroelettrico fluente','Rifiuti','Biomassa','Geotermico','Gas fossile','Lignite','Carbone','Nucleare']
+    items = ['Idroelettrico pompaggio','Idroelettrico bacino','Gas naturale','Altro','Solare','Eolico onshore','Eolico offshore','Idroelettrico fluente','Rifiuti','Biomassa','Geotermico','Gas derivato','Lignite','Carbone','Nucleare']
     colors = [
         '#868686',  # Battleship gray
         '#00008B',  # Dark Blue
         '#0000FF',  # Blue
         '#FF0000',  # Red
-        '#808080',  # Gray
+        '#D49A79',  # Buff
         '#FFFF00',  # Yellow
         '#87CEEB',  # Sky Blue
         '#549399',  # Dark cyan
         '#3366FF',  # Light Blue
         '#75D86A',  # Light Green
         '#006400',  # Dark Green
-        '#FFA500',  # Orange
+        '#DE570A',  # Orange
         '#990000',  # Dark Crimson
         '#32161F',  # Dark Purple
         '#333333',  # Dark Gray
