@@ -24,19 +24,23 @@ def plot(df:pd.DataFrame, load:pd.DataFrame) -> alt.Chart:
     ]
     category_order_map = {category: index for index, category in enumerate(items)}
     df['Order'] = df['VAR'].map(category_order_map)
-    altair = AltairCharts(plot_h = 480,plot_w = 1000,x_label_format = '%H:%M',x_title=None)
-    load_chart = alt.Chart(load).mark_bar(opacity=0.1).encode(x='hours(Timestamp):T',y='Load',color='Label',tooltip = [alt.Tooltip('hours(Timestamp)',title='orario',format='%H:%M'),alt.Tooltip('Load',title='carico [MW]')])
+
+    altair = AltairCharts(plot_h = 480,plot_w = 1100,x_label_format = '%H:%M',x_title=None)
+    load_chart = alt.Chart(load).mark_bar(opacity=0.1).encode(
+        x='hours(Timestamp):T',
+        y='Load',
+        color=alt.Color('Label',title=None, legend = alt.Legend(orient='right',symbolOpacity=1)),
+        tooltip = [alt.Tooltip('hours(Timestamp)',title='orario',format='%H:%M'),alt.Tooltip('Load',title='carico [MW]')]
+        )
     gen_chart = alt.Chart(df).mark_bar().encode(
         x=alt.X('hours(Timestamp):T',title=None),
         y=alt.Y('VAL',title='Potenza [MW]'),
         color=alt.Color(
             'VAR:N',
-            title=None,
-            legend=None,
             scale = alt.Scale(domain=['Carico']+items,range=colors),
         ),
         order = alt.Order('Order:Q',sort='descending'),
         tooltip = [alt.Tooltip('VAR',title='fonte'),alt.Tooltip('VAL',title='potenza [MW]')]
-    )
+        )
     chart =  altair.main_plot(load_chart,gen_chart)
     return chart
