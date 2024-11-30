@@ -1,10 +1,9 @@
 import pandas as pd
-import altair as alt
 import streamlit as st
+from plot import plot
 from datetime import date
 from anagraphic import country_code
 from entsoe_query import entsoe_query
-from AltairCharts import AltairCharts
 
 
 st.set_page_config(layout='wide')
@@ -68,43 +67,7 @@ if user_country != None:
         for i in load.index:
             load.at[i,'Timestamp'] = load.at[i,'index'] + pd.Timedelta(hours=0.5)
 
-        # ==== PLOT ====
-        items = ['Idroelettrico pompaggio','Idroelettrico bacino','Gas naturale','Altro','Solare','Eolico onshore','Eolico offshore','Idroelettrico fluente','Rifiuti','Biomassa','Geotermico','Gas fossile','Lignite','Carbone','Nucleare']
-        colors = [
-        '#FFFFFF',  # White
-        '#00008B',  # Dark Blue
-        '#0000FF',  # Blue
-        '#FF0000',  # Red
-        '#808080',  # Gray
-        '#FFFF00',  # Yellow
-        '#87CEEB',  # Sky Blue
-        '#87CEEB',  # Sky Blue
-        '#3366FF',  # Light Blue
-        '#75D86A',  # Light Green
-        '#006400',  # Dark Green
-        '#FFA500',  # Orange
-        '#990000',  # Dark Crimson
-        '#32161F',  # Dark Purple
-        '#333333',  # Dark Gray
-        '#5A2DA8',  # Indigo
-    ]
-        category_order_map = {category: index for index, category in enumerate(items)}
-        df['Order'] = df['VAR'].map(category_order_map)
-        altair = AltairCharts(plot_h = 480,plot_w = 1000,x_label_format = '%H:%M',x_title=None)
-        load_chart = alt.Chart(load).mark_bar(opacity=0.1).encode(x='hours(Timestamp):T',y='Load',color='Label',tooltip = [alt.Tooltip('hours(Timestamp)',title='orario',format='%H:%M'),alt.Tooltip('Load',title='carico [MW]')])
-        gen_chart = alt.Chart(df).mark_bar().encode(
-            x=alt.X('hours(Timestamp):T',title=None),
-            y=alt.Y('VAL',title='Potenza [MW]'),
-            color=alt.Color(
-                'VAR:N',
-                title=None,
-                legend=None,
-                scale = alt.Scale(domain=['Carico']+items,range=colors),
-            ),
-            order = alt.Order('Order:Q',sort='descending'),
-            tooltip = [alt.Tooltip('VAR',title='fonte'),alt.Tooltip('VAL',title='potenza [MW]')]
-        )
-        chart =  altair.main_plot(load_chart,gen_chart)
+        chart = plot(df,load)
         st.altair_chart(chart)
 
 else:
