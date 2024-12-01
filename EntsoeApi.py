@@ -11,7 +11,7 @@ class EntsoeApi():
 
     client = EntsoePandasClient(api_key='d0259571-e1bb-49f7-be2c-c370c180e77e')
 
-    def entsoe_query(self, date:date, cc:str) -> pd.DataFrame:
+    def daily_generation(self, date:date, cc:str) -> pd.DataFrame:
         day = pd.Timestamp(date, tz='Europe/Brussels')
         start = day 
         end = day + pd.Timedelta(days=1)

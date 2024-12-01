@@ -2,11 +2,14 @@ import pandas as pd
 import streamlit as st
 from plot import plot
 from datetime import date
+from EntsoeApi import EntsoeApi
 from anagraphic import country_code
-from entsoe_query import entsoe_query
+
 
 
 st.set_page_config(layout='wide')
+
+entsoe = EntsoeApi()
 
 if 'date' not in st.session_state:
     st.session_state.date = None
@@ -39,7 +42,7 @@ if user_country != None:
     error = False
     if st.session_state.date != user_date or st.session_state.country != user_country:
         try:
-            st.session_state.df = entsoe_query(user_date,country_code[user_country])
+            st.session_state.df = entsoe.daily_generation(user_date,country_code[user_country])
             st.session_state.date = user_date
             st.session_state.country = user_country
         except Exception:
