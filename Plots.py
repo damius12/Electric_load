@@ -24,6 +24,17 @@ class Plots():
         '#333333',  # Dark Gray
         '#5A2DA8',  # Indigo
     ]
+    colors2 = [
+        '#0000FF',  # Blue
+        '#FFFF00',  # Yellow
+        '#87CEEB',  # Sky Blue
+        '#DE570A',  # Orange
+        '#006400',  # Dark Green
+        '#75D86A',  # Light Green  
+        '#5A2DA8',  # Indigo
+        '#FF0000',  # Red
+        '#333333',  # Dark Gray
+    ]
 
     def gen_plot(self, df:pd.DataFrame, load:pd.DataFrame) -> alt.Chart:
 
@@ -51,23 +62,18 @@ class Plots():
         return chart
     
 
-    def cap_plot(self, df:pd.DataFrame) -> alt.Chart:
-
-        category_order_map = {category: index for index, category in enumerate(Plots.items)}
-        df['Order'] = df['Tech'].map(category_order_map)
-
+    def cap_plot(self, df:pd.DataFrame, cols:list) -> alt.Chart:
         altair = AltairCharts(plot_h = 1400, plot_w = 1000)
-
         d = alt.Chart(df).mark_bar().encode(
             y=alt.Y('Nazione:N',title=None),
             x=alt.X('Qty:Q',title='Potenza installata [MW]'),
             color=alt.Color(
-                'Tech:N',
-                scale = alt.Scale(domain=Plots.items,range=Plots.colors[1:]),
+                'Src:N',
+                scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
                 legend = None,
             ),
             order = alt.Order('Order:Q',sort='descending'),
-            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')]
+            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')]
             )
         chart = altair.main_plot(d)
         

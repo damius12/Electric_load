@@ -48,4 +48,5 @@ class EntsoeApi():
                 df = pd.concat([df,single])[cols]
             except Exception:
                 fails.append(cc)
+        df = df.drop(index=[0]).fillna(0)
         return df
