@@ -16,6 +16,24 @@ psr_type = {
     'B20':'Altro'
 }
 
+type_translation = {
+    'Biomass':'Biomassa',
+    'Fossil Brown coal/Lignite':'Lignite',
+    'Fossil Coal-derived gas':'Gas derivato',
+    'Fossil Gas':'Gas naturale',
+    'Fossil Hard coal':'Carbone',
+    'Geothermal':'Geotermico',
+    'Hydro Pumped Storage':'Idroelettrico pompaggio',
+    'Hydro Run-of-river and poundage':'Idroelettrico fluente',
+    'Hydro Water Reservoir':'Idroelettrico bacino',
+    'Nuclear':'Nucleare',
+    'Solar':'Solare',
+    'Waste':'Rifiuti',
+    'Wind Offshore':'Eolico offshore',
+    'Wind Onshore':'Eolico onshore',
+    'Other':'Altro'
+}
+
 country_code = {
     'Norvegia':'NO',
     'Svezia':'SE', 
