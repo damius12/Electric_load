@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import altair as alt
 from AltairCharts import AltairCharts
@@ -73,7 +74,8 @@ class Plots():
                 legend = None,
             ),
             order = alt.Order('Order:Q',sort='descending'),
-            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')]
+            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')],
+            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1)
             )
         chart = altair.main_plot(d)
         
