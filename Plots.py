@@ -62,10 +62,10 @@ class Plots():
         return chart
     
 
-    def cap_plot(self, df:pd.DataFrame, cols:list) -> alt.Chart:
+    def cap_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
         altair = AltairCharts(plot_h = 1400, plot_w = 1000)
         d = alt.Chart(df).mark_bar().encode(
-            y=alt.Y('Nazione:N',title=None),
+            y=alt.Y('Nazione:N',title=None,sort=order_list),
             x=alt.X('Qty:Q',title='Potenza installata [MW]'),
             color=alt.Color(
                 'Src:N',
