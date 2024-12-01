@@ -35,7 +35,7 @@ class EntsoeApi():
                 df.at[i,'Timestamp'] = df.at[i,'index'] + pd.Timedelta(hours=0.5)
         return df
 
-    def installed_capacity(self):
+    def installed_capacity(self) -> pd.DataFrame:
         today = pd.Timestamp(date.today(),tz='Europe/Brussels')
         cols = ['Nazione'] + list(psr_type.values())
         df = pd.DataFrame({c:[0] for c in cols})

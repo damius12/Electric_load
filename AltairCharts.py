@@ -53,7 +53,7 @@ class AltairCharts:
             title=self.leg_title,
             titleFontSize=self.large,
             labelFontSize=self.medium,
-            orient="top",
+            orient="right",
         )
 
     # SELECTIONS
