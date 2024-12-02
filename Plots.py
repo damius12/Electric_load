@@ -86,7 +86,8 @@ class Plots():
                 legend = None,
             ),
             tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')],
-            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1)
+            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
+            order = alt.Order('Order:Q',sort='descending')
             )
         chart = altair.main_plot(d)
         
