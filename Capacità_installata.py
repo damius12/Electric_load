@@ -23,7 +23,6 @@ if 'data' not in st.session_state:
         query.to_csv(csv_name,index=False)
         st.session_state.data = query
 df = st.session_state.data
-st.dataframe(st.session_state.data)
 
 with st.sidebar:
     st.subheader('Ordina per')
