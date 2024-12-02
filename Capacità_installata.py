@@ -12,18 +12,18 @@ st.header('Capacità installata in Europa')
 
 cols = ['Totale','Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone']
 csv_name = f'installed_capacity_{date.today().year}.csv'
-if 'df' not in st.session_state:
+if 'data' not in st.session_state:
     try:
-        st.session_state.df = pd.read_csv(csv_name)
+        st.session_state.data = pd.read_csv(csv_name)
     except Exception:
         query = entsoe.installed_capacity()
         query = group_tech(query)
         query['Totale'] = query.iloc[:,1:].sum(axis=1)
         query = query[['Nazione']+cols]
         query.to_csv(csv_name,index=False)
-        st.session_state.df = query
-df = st.session_state.df
-st.dataframe(st.session_state.df)
+        st.session_state.data = query
+df = st.session_state.data
+st.dataframe(st.session_state.data)
 
 with st.sidebar:
     st.subheader('Ordina per')
