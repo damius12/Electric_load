@@ -3,6 +3,7 @@ import streamlit as st
 from Plots import Plots
 from datetime import date
 from EntsoeApi import EntsoeApi
+from group_tech import group_tech
 from anagraphic import country_code
 
 
@@ -45,6 +46,10 @@ if user_country != None:
             st.session_state.country = user_country
         except Exception:
             error = True
+    sums = st.session_state.df.drop(columns=['Timestamp','index','Load'])
+    sums = group_tech(sums)[['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone','Altro']]
+    sums = sums.sum(axis=0).reset_index()
+    sums.columns = ['Tech','Qty']
 
     if cols == []:
         st.success("Seleziona un'opzione dal menù a sinistra",icon=':material/arrow_back:')
@@ -57,6 +62,9 @@ if user_country != None:
         load['Label'] = ['Carico']*len(load)
         chart = plots.gen_plot(df,load)
         st.altair_chart(chart)
+    pie_chart = plots.gen_pie(sums)
+    st.altair_chart(pie_chart)
+    
 
 else:
     st.header('Generazione di elettricità in Europa')

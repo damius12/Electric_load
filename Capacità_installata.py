@@ -1,9 +1,9 @@
-import numpy as np
 import pandas as pd
 import streamlit as st
 from Plots import Plots
 from datetime import date
 from EntsoeApi import EntsoeApi
+from group_tech import group_tech
 
 entsoe = EntsoeApi()
 plots = Plots()
@@ -17,10 +17,7 @@ if 'df' not in st.session_state:
         st.session_state.df = pd.read_csv(csv_name)
     except Exception:
         df = entsoe.installed_capacity()
-        df['Idroelettrico'] = np.array(df['Idroelettrico bacino'])+np.array(df['Idroelettrico fluente'])+np.array(df['Idroelettrico pompaggio'])
-        df['Carbone'] = np.array(df['Carbone'])+np.array(df['Lignite'])
-        df['Gas'] = np.array(df['Gas derivato'])+np.array(df['Gas naturale'])
-        df['Eolico'] = np.array(df['Eolico offshore'])+np.array(df['Eolico onshore'])
+        df = group_tech(df)
         df['Totale'] = df.iloc[:,1:].sum(axis=1)
         df = df[['Nazione']+cols]
         df.to_csv(csv_name,index=False)

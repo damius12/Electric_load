@@ -62,6 +62,18 @@ class Plots():
         chart =  altair.main_plot(load_chart,gen_chart)
         return chart
     
+    def gen_pie(self, df:pd.DataFrame) -> alt.Chart:
+        category_order_map = {category: index for index, category in enumerate(df['Tech'])}
+        df['Order'] = df['Tech'].map(category_order_map)
+        tot = sum(df['Qty'])
+        df['Share'] = np.array(df['Qty'])/tot*100
+        pie = alt.Chart(df).mark_arc().encode(angle='Qty:Q',color=alt.Color('Tech',title=None,scale = alt.Scale(domain=df['Tech'],range=Plots.colors2+['#D49A79'])),
+            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]'),alt.Tooltip('Share',title='percentuale [%]',format='.1f')],
+            order = 'Order:Q'
+            )
+        side = 400
+        chart = pie.properties(height=side,width=side*4/3)
+        return chart
 
     def cap_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
         altair = AltairCharts(plot_h = 1400, plot_w = 1000)
@@ -73,7 +85,6 @@ class Plots():
                 scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
                 legend = None,
             ),
-            order = alt.Order('Order:Q',sort='descending'),
             tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')],
             opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1)
             )
