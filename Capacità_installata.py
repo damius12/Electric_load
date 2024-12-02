@@ -16,12 +16,12 @@ if 'df' not in st.session_state:
     try:
         st.session_state.df = pd.read_csv(csv_name)
     except Exception:
-        df = entsoe.installed_capacity()
-        df = group_tech(df)
-        df['Totale'] = df.iloc[:,1:].sum(axis=1)
-        df = df[['Nazione']+cols]
-        df.to_csv(csv_name,index=False)
-        st.session_state.df = df
+        query = entsoe.installed_capacity()
+        query = group_tech(query)
+        query['Totale'] = query.iloc[:,1:].sum(axis=1)
+        query = query[['Nazione']+cols]
+        query.to_csv(csv_name,index=False)
+        st.session_state.df = query
 df = st.session_state.df
 
 with st.sidebar:
