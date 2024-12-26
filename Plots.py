@@ -69,7 +69,7 @@ class Plots():
         tot = sum(df['Qty'])
         df['Share'] = np.array(df['Qty'])/tot*100
         pie = alt.Chart(df).mark_arc().encode(angle='Qty:Q',color=alt.Color('Tech',title=None,scale = alt.Scale(domain=df['Tech'],range=Plots.colors2+['#D49A79'])),
-            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='energia prodotta [GWh]'),alt.Tooltip('Share',title='percentuale [%]',format='.1f')],
+            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='energia prodotta [GWh]',format='.1f'),alt.Tooltip('Share',title='percentuale [%]',format='.1f')],
             order = 'Order:Q'
             )
         side = 400
