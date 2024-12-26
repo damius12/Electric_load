@@ -65,10 +65,10 @@ class Plots():
     def gen_pie(self, df:pd.DataFrame) -> alt.Chart:
         category_order_map = {category: index for index, category in enumerate(df['Tech'])}
         df['Order'] = df['Tech'].map(category_order_map)
-        tot = sum(df['Qty'])
-        df['Share'] = np.array(df['Qty'])/tot*100
+        tot = sum(df['Qty'])/1000
+        df['Share'] = np.array(df['Qty'])/tot*100/1000
         pie = alt.Chart(df).mark_arc().encode(angle='Qty:Q',color=alt.Color('Tech',title=None,scale = alt.Scale(domain=df['Tech'],range=Plots.colors2+['#D49A79'])),
-            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]'),alt.Tooltip('Share',title='percentuale [%]',format='.1f')],
+            tooltip = [alt.Tooltip('Tech',title='fonte'),alt.Tooltip('Qty',title='energia prodotta [GWh]'),alt.Tooltip('Share',title='percentuale [%]',format='.1f')],
             order = 'Order:Q'
             )
         side = 400
