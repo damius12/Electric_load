@@ -46,16 +46,16 @@ if user_country != None:
             st.session_state.country = user_country
         except Exception:
             error = True
-    sums = st.session_state.df.drop(columns=['Timestamp','index','Load'])
-    sums = group_tech(sums)[['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone','Altro']]
-    sums = sums.sum(axis=0).reset_index()
-    sums.columns = ['Tech','Qty']
 
     if cols == []:
         st.success("Seleziona un'opzione dal menù a sinistra",icon=':material/arrow_back:')
     elif error:
         st.error("Dati non disponibili",icon=':material/error:') 
     else:
+        sums = st.session_state.df.drop(columns=['Timestamp','index','Load'])
+        sums = group_tech(sums)[['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone','Altro']]
+        sums = sums.sum(axis=0).reset_index()
+        sums.columns = ['Tech','Qty']
         df = st.session_state.df[cols+['Timestamp']]
         df = df.melt(value_name='VAL',var_name='VAR',id_vars='Timestamp')
         load = st.session_state.df[['Load','Timestamp']]
@@ -65,7 +65,6 @@ if user_country != None:
     pie_chart = plots.gen_pie(sums)
     st.altair_chart(pie_chart)
     
-
 else:
     st.header('Generazione di elettricità in Europa')
     st.markdown('*fonte: entso-e*')
