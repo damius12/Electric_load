@@ -3,8 +3,8 @@ import streamlit as st
 from Plots import Plots
 from datetime import date
 from EntsoeApi import EntsoeApi
-from group_tech import group_tech
 from anagraphic import country_code
+from group_tech import group_tech_cap
 
 
 entsoe = EntsoeApi()
@@ -45,7 +45,7 @@ if user_country != None:
             st.session_state.date = user_date
             st.session_state.country = user_country
             sums = st.session_state.df.drop(columns=['Timestamp','index','Load'])
-            sums = group_tech(sums)[['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone','Altro']]
+            sums = group_tech_cap(sums)[['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone','Altro']]
             sums = sums.sum(axis=0).reset_index()
             sums.columns = ['Tech','Qty']
             st.session_state.sums = sums

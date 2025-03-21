@@ -35,14 +35,14 @@ class EntsoeApi():
                 df.at[i,'Timestamp'] = df.at[i,'index'] + pd.Timedelta(hours=0.5)
         return df
 
-    def installed_capacity(self) -> pd.DataFrame:
+    def installed_capacity(self,year:int) -> pd.DataFrame:
         today = pd.Timestamp(date.today(),tz='Europe/Brussels')
         cols = ['Nazione'] + list(psr_type.values())
         df = pd.DataFrame({c:[0] for c in cols})
         fails = []
         for cc in country_code.keys():
             try:
-                single = EntsoeApi.client.query_installed_generation_capacity(country_code[cc], start= today, end=today+pd.Timedelta(days=1), psr_type=None)
+                single = EntsoeApi.client.query_installed_generation_capacity(country_code[cc], start= pd.Timestamp(year,1,1,tz='Europe/Brussels'), end=pd.Timestamp(year,1,2,tz='Europe/Brussels'), psr_type=None)
                 single = single.rename(columns=type_translation)
                 single['Nazione'] = cc
                 df = pd.concat([df,single])[cols]

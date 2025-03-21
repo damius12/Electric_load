@@ -91,5 +91,21 @@ class Plots():
             order = alt.Order('Order:Q',sort='descending')
             )
         chart = altair.main_plot(d)
-        
+        return chart
+
+    def aep_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
+        altair_aep = AltairCharts(plot_h = 1400, plot_w = 1000)
+        d = alt.Chart(df).mark_bar().encode(
+            y=alt.Y('Nazione:N',title=None,sort=order_list),
+            x=alt.X('Qty:Q',title='Generazione annua [GWh]'),
+            color=alt.Color(
+                'Src:N',
+                scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
+                legend = None,
+            ),
+            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='Quantità [GWh]')],
+            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
+            order = alt.Order('Order:Q',sort='descending')
+            )
+        chart = altair_aep.main_plot(d)
         return chart
