@@ -48,7 +48,7 @@ class Plots():
             x='hours(Timestamp):T',
             y='Load',
             color=alt.Color('Label',title=None, legend = alt.Legend(orient='right',symbolOpacity=1)),
-            tooltip = [alt.Tooltip('hours(Timestamp)',title='orario',format='%H:%M'),alt.Tooltip('Load',title='carico [MW]')]
+            tooltip = [alt.Tooltip('hours(Timestamp)',title='orario',format='%H:%M'),alt.Tooltip('Load',title='carico [MW]',format='.0f')]
             )
         gen_chart = alt.Chart(df).mark_bar().encode(
             x=alt.X('hours(Timestamp):T',title=None),
@@ -58,7 +58,7 @@ class Plots():
                 scale = alt.Scale(domain=['Carico']+Plots.items,range=Plots.colors),
             ),
             order = alt.Order('Order:Q',sort='descending'),
-            tooltip = [alt.Tooltip('VAR',title='fonte'),alt.Tooltip('VAL',title='potenza [MW]')]
+            tooltip = [alt.Tooltip('VAR',title='fonte'),alt.Tooltip('VAL',title='potenza [MW]',format='.0f')]
             )
         chart =  altair.main_plot(load_chart,gen_chart)
         return chart
@@ -87,7 +87,7 @@ class Plots():
                 scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
                 legend = None,
             ),
-            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='potenza [MW]')],
+            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='capacità [GW]',format='.1f')],
             opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
             order = alt.Order('Order:Q',sort='descending')
             )
@@ -98,13 +98,13 @@ class Plots():
         altair = AltairCharts(plot_h = 1400, plot_w = 1000)
         d = alt.Chart(df).mark_bar().encode(
             y=alt.Y('Nazione:N',title=None,sort=order_list),
-            x=alt.X('Qty:Q',title='Generazione annua [GWh]'),
+            x=alt.X('Qty:Q',title='Produzione annuale [TWh]'),
             color=alt.Color(
                 'Src:N',
                 scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
                 legend = None,
             ),
-            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='Quantità [GWh]')],
+            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='produzione [TWh]',format='.1f')],
             opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
             order = alt.Order('Order:Q',sort='descending')
             )

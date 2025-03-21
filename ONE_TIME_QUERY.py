@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from EntsoeApi import EntsoeApi
 from anagraphic import country_translation
@@ -14,10 +15,11 @@ year = 2023
 query = entsoe.installed_capacity(year)
 query = group_tech_cap(query)
 query = query[['Nazione']+cols]
+for col in cols:
+    query[col] = np.array(query[col])/1000
 query['Totale'] = query.iloc[:,1:].sum(axis=1)
 query = query.reset_index()
 query = query.drop(columns=['index'])
-
 
 # annual energy production
 df = pd.read_csv('raw_eurostat.csv')
@@ -32,6 +34,8 @@ df = df.reset_index()
 df = df.rename(columns={'geo':'Nazione','Nuclear heat':'Nucleare','Solar photovoltaic':'Solare','Wind':'Eolico','Geothermal':'Geotermico'})
 df["Nazione"] = df["Nazione"].map(country_translation)
 df = df[['Nazione']+cols]
+for col in cols:
+    df[col] = np.array(df[col])/1000
 df["Totale"] = df.iloc[:, 1:].sum(axis=1)
 
 countries_cap = query['Nazione'].unique().tolist()
