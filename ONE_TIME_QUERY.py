@@ -13,9 +13,11 @@ year = 2023
 # installed capacity
 query = entsoe.installed_capacity(year)
 query = group_tech_cap(query)
+query = query[['Nazione']+cols]
 query['Totale'] = query.iloc[:,1:].sum(axis=1)
-query = query[['Nazione','Totale']+cols]
-query.to_csv('installed_capacity.csv')
+query = query.reset_index()
+query = query.drop(columns=['index'])
+
 
 # annual energy production
 df = pd.read_csv('raw_eurostat.csv')
@@ -31,4 +33,11 @@ df = df.rename(columns={'geo':'Nazione','Nuclear heat':'Nucleare','Solar photovo
 df["Nazione"] = df["Nazione"].map(country_translation)
 df = df[['Nazione']+cols]
 df["Totale"] = df.iloc[:, 1:].sum(axis=1)
+
+countries_cap = query['Nazione'].unique().tolist()
+countries_gen = df['Nazione'].unique().tolist()
+countries = list(set(countries_gen) & set(countries_cap))
+query = query[query['Nazione'].isin(countries)]
+df = df[df['Nazione'].isin(countries)]
+query.to_csv('installed_capacity.csv')
 df = df.to_csv('AEP.csv')

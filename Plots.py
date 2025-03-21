@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import altair as alt
+import streamlit as st
 from AltairCharts import AltairCharts
 
 
@@ -8,33 +9,33 @@ class Plots():
 
     items = ['Idroelettrico pompaggio','Idroelettrico bacino','Gas naturale','Altro','Solare','Eolico onshore','Eolico offshore','Idroelettrico fluente','Rifiuti','Biomassa','Geotermico','Gas derivato','Lignite','Carbone','Nucleare']
     colors = [
-        '#868686',  # Battleship gray
-        '#00008B',  # Dark Blue
-        '#0000FF',  # Blue
-        '#FF0000',  # Red
-        '#D49A79',  # Buff
-        '#FFFF00',  # Yellow
-        '#87CEEB',  # Sky Blue
-        '#549399',  # Dark cyan
-        '#3366FF',  # Light Blue
-        '#75D86A',  # Light Green
-        '#006400',  # Dark Green
-        '#DE570A',  # Orange
-        '#990000',  # Dark Crimson
-        '#32161F',  # Dark Purple
-        '#333333',  # Dark Gray
-        '#5A2DA8',  # Indigo
+        '#868686',  # Carico
+        '#00008B',  # Idroelettrico pompaggio
+        '#0000FF',  # Idroelettrico bacino
+        '#FF0000',  # Gas
+        '#D49A79',  # Altro
+        '#FFFF00',  # Solare
+        '#87CEEB',  # Eolico onshore
+        '#549399',  # Eolico offshore
+        '#3366FF',  # Idroelettrico fluente
+        '#75D86A',  # Rifiuti
+        '#006400',  # Biomassa
+        '#DE570A',  # Geotermico
+        '#990000',  # Gas derivato
+        '#32161F',  # Lignite
+        '#333333',  # Carbone
+        '#5A2DA8',  # Nucleare
     ]
     colors2 = [
-        '#0000FF',  # Blue
-        '#FFFF00',  # Yellow
-        '#87CEEB',  # Sky Blue
-        '#DE570A',  # Orange
-        '#006400',  # Dark Green
-        '#75D86A',  # Light Green  
-        '#5A2DA8',  # Indigo
-        '#FF0000',  # Red
-        '#333333',  # Dark Gray
+        '#0000FF',  # Idroelettrico
+        '#FFFF00',  # Solare
+        '#87CEEB',  # Eolico
+        '#DE570A',  # Geotermico
+        '#006400',  # Biomassa
+        '#75D86A',  # Rifiuti
+        '#5A2DA8',  # Nucleare
+        '#FF0000',  # Gas
+        '#333333',  # Carbone
     ]
 
     def gen_plot(self, df:pd.DataFrame, load:pd.DataFrame) -> alt.Chart:
@@ -94,7 +95,7 @@ class Plots():
         return chart
 
     def aep_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
-        altair_aep = AltairCharts(plot_h = 1400, plot_w = 1000)
+        altair = AltairCharts(plot_h = 1400, plot_w = 1000)
         d = alt.Chart(df).mark_bar().encode(
             y=alt.Y('Nazione:N',title=None,sort=order_list),
             x=alt.X('Qty:Q',title='Generazione annua [GWh]'),
@@ -107,5 +108,5 @@ class Plots():
             opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
             order = alt.Order('Order:Q',sort='descending')
             )
-        chart = altair_aep.main_plot(d)
+        chart = altair.main_plot(d)
         return chart

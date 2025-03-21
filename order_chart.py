@@ -4,6 +4,8 @@ from Plots import Plots
 cols = ['Totale','Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone']
 
 def order_chart(df:pd.DataFrame,order,type:str):
+    if 'Unnamed: 0' in df.columns:
+        df = df.drop(columns=['Unnamed: 0'])
     plots = Plots()
     df = df.sort_values(by=order,ascending=False)
     order_list = list(df['Nazione'])
