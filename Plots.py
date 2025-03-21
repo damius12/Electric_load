@@ -11,31 +11,32 @@ class Plots():
     colors = [
         '#868686',  # Carico
         '#00008B',  # Idroelettrico pompaggio
-        '#0000FF',  # Idroelettrico bacino
-        '#FF0000',  # Gas
-        '#D49A79',  # Altro
-        '#FFFF00',  # Solare
-        '#87CEEB',  # Eolico onshore
-        '#549399',  # Eolico offshore
-        '#3366FF',  # Idroelettrico fluente
-        '#75D86A',  # Rifiuti
-        '#006400',  # Biomassa
+        '#0B3AC7',  # Idroelettrico bacino
+        '#737373',  # Gas
+        '#FFFFFF',  # Altro
+        '#ECCC28',  # Solare
+        '#9AF7E7',  # Eolico onshore
+        '#54B8A7',  # Eolico offshore
+        '#478AFF',  # Idroelettrico fluente
+        '#153B0B',  # Rifiuti
+        '#25A920',  # Biomassa
         '#DE570A',  # Geotermico
-        '#990000',  # Gas derivato
-        '#32161F',  # Lignite
-        '#333333',  # Carbone
-        '#5A2DA8',  # Nucleare
+        '#808080',  # Gas derivato
+        '#45313D',  # Lignite
+        '#313131',  # Carbone
+        '#B891FC',  # Nucleare
     ]
     colors2 = [
-        '#0000FF',  # Idroelettrico
-        '#FFFF00',  # Solare
-        '#87CEEB',  # Eolico
+        '#0B3AC7',  # Idroelettrico
+        '#ECCC28',  # Solare
+        '#9AF7E7',  # Eolico
         '#DE570A',  # Geotermico
-        '#006400',  # Biomassa
-        '#75D86A',  # Rifiuti
-        '#5A2DA8',  # Nucleare
-        '#FF0000',  # Gas
-        '#333333',  # Carbone
+        '#25A920',  # Biomassa
+        '#153B0B',  # Rifiuti
+        '#B891FC',  # Nucleare
+        '#737373',  # Gas
+        '#313131',  # Carbone
+        '#FFFFFF',  # Altro
     ]
 
     def gen_plot(self, df:pd.DataFrame, load:pd.DataFrame) -> alt.Chart:
