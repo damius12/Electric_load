@@ -8,7 +8,7 @@ entsoe = EntsoeApi()
 cols = ['Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone']
 
 #################
-year = 2023
+year = 2024
 #################
 
 # installed capacity

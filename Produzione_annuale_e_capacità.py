@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import streamlit as st
 from Plots import Plots
@@ -6,7 +5,7 @@ from order_chart import order_chart
 
 plots = Plots()
 
-st.header(f'Produzione annuale e capacità installata (2023)')
+st.header(f'Produzione annuale e capacità installata (2024)')
 
 cols = ['Totale','Idroelettrico','Solare','Eolico','Geotermico','Biomassa','Rifiuti','Nucleare','Gas','Carbone']
 if 'capacity' not in st.session_state:
