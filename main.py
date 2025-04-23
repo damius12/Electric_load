@@ -10,6 +10,8 @@ from group_tech import group_tech_cap
 entsoe = EntsoeApi()
 plots = Plots()
 
+st.set_page_config(layout='wide')
+
 if 'date' not in st.session_state:
     st.session_state.date = None
 if 'country' not in st.session_state:
