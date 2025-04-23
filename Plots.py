@@ -77,37 +77,3 @@ class Plots():
         side = 400
         chart = pie.properties(height=side,width=side*4/3)
         return chart
-
-    def cap_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
-        altair = AltairCharts(plot_h = 1400, plot_w = 1000)
-        d = alt.Chart(df).mark_bar().encode(
-            y=alt.Y('Nazione:N',title=None,sort=order_list),
-            x=alt.X('Qty:Q',title='Potenza installata [MW]'),
-            color=alt.Color(
-                'Src:N',
-                scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
-                legend = None,
-            ),
-            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='capacità [GW]',format='.1f')],
-            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
-            order = alt.Order('Order:Q',sort='descending')
-            )
-        chart = altair.main_plot(d)
-        return chart
-
-    def aep_plot(self, df:pd.DataFrame, cols:list, order_list:list, leading:str) -> alt.Chart:
-        altair = AltairCharts(plot_h = 1400, plot_w = 1000)
-        d = alt.Chart(df).mark_bar().encode(
-            y=alt.Y('Nazione:N',title=None,sort=order_list),
-            x=alt.X('Qty:Q',title='Produzione annuale [TWh]'),
-            color=alt.Color(
-                'Src:N',
-                scale = alt.Scale(domain=cols[1:],range=Plots.colors2),
-                legend = None,
-            ),
-            tooltip = [alt.Tooltip('Src',title='fonte'),alt.Tooltip('Qty',title='produzione [TWh]',format='.1f')],
-            opacity = alt.condition(alt.datum.Src == leading, alt.value(1),alt.value(0.2)) if leading != 'Totale' else alt.value(1),
-            order = alt.Order('Order:Q',sort='descending')
-            )
-        chart = altair.main_plot(d)
-        return chart
